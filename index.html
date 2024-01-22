@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+	<meta charset="utf-8">
+	<title>REST API in PHP</title>
+	<meta name="mjafory" content="REST API in PHP">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<h1>REST API in PHP</h1>
+	<p id="result"></p>
+	<script>
+		const apiURL = "http://localhost:2024/api.php";
+		fetch(apiURL).then(response => response.json()).then(data => {
+			if (data.data && data.data.length > 0) {
+				const resultElement = document.getElementById("result");
+				// Create an HTML table
+				const table = document.createElement("table");
+				table.border = "1";
+				// Create table headers
+				const headers = Object.keys(data.data[0]);
+				const headerRow = table.insertRow();
+				headers.forEach(header => {
+					const th = document.createElement("th");
+					th.textContent = header;
+					headerRow.appendChild(th);
+				});
+				// Fill the table with data
+				data.data.forEach(item => {
+					const row = table.insertRow();
+					headers.forEach(header => {
+						const cell = row.insertCell();
+						cell.textContent = item[header];
+					});
+				});
+				// Append the table to the result element
+				resultElement.appendChild(table);
+			} else {
+				console.error("No data found in the response.");
+			}
+		}).catch(error => {
+			console.error("Error fetching JSON data:", error);
+		});
+
+	</script>
+
+
+	<!--	if you like print all datas without table-->
+	<!--
+<p id="result"></p>
+<script>
+  const apiURL = "https://daarulhikmahny.org/test/json.php";
+  fetch(apiURL)
+    .then(response => response.json())
+    .then(data => {
+      if (data.data && data.data.length > 0) {
+        //console.log("All Data:", data); // Log the entire data object
+        document.getElementById("result").innerHTML = JSON.stringify(data, null, 2);
+      } else {
+        console.error("No data found in the response.");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching JSON data:", error);
+    });
+</script>
+-->
+
+</body>
+
+</html>
